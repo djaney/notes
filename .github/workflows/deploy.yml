@@ -1,0 +1,19 @@
+name: "Pull Request Docs Check"
+on:
+- push
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v1
+    - name: Build 🔧
+      uses: ammaraskar/sphinx-action@master
+      with:
+        docs-folder: "/"
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: master # The branch the action should deploy to.
+        folder: _build/html # The folder the action should deploy.
