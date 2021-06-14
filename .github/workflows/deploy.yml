@@ -10,8 +10,7 @@ jobs:
       uses: actions/checkout@v1
     - name: Build 🔧
       run: |
-        sudo apt install python3-sphinx
-        sudo apt install pip3
+        sudo apt install python3-sphinx install python3-pip
         pip3 install -r requirements.txt
         make html
     - name: Deploy 🚀
