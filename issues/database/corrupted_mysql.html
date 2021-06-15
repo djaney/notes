@@ -30,20 +30,50 @@
             
   <div class="tex2jax_ignore mathjax_ignore section" id="corrupted-mysql">
 <h1>Corrupted mysql<a class="headerlink" href="#corrupted-mysql" title="Permalink to this headline">¶</a></h1>
+<p>In this case, the InnoDB engine got errors. There is an unaccessilble table.
+You are also unable to manually fix the issue because you have no access to RDS itself.</p>
+<p>The solution is to build a backup file based on backup(s) and re-build the database from scratch.</p>
 <div class="section" id="restoring">
 <h2>Restoring<a class="headerlink" href="#restoring" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
 <li><p>create new blank database</p></li>
 <li><p>copy dtp API instance and create a temporary instance</p></li>
 <li><p>modify new instance to use new database</p></li>
-<li><p>rebuild schema (run framework’s database migration scrip)</p></li>
+<li><p>rebuild schema (run framework’s database migration script)</p></li>
+<li><p>backup old database</p></li>
 <li><p>import lost table data to new database (take from old backups where data exist)</p></li>
 <li><p>create msqldump of up-to-date data</p></li>
-<li><p>import up-to-date data</p></li>
-<li><p>test</p></li>
+<li><p>import up-to-date data to new database</p></li>
+<li><p>test (script below to check difference)</p></li>
 <li><p>switch production database to new one</p></li>
 <li><p>remove temporary instance</p></li>
 </ol>
+</div>
+<div class="section" id="exporting">
+<h2>Exporting<a class="headerlink" href="#exporting" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">--insert-ignore</span></code> will not insert if already existing</p>
+<p><code class="docutils literal notranslate"><span class="pre">--set-gtid-purged=OFF</span></code> there are things in dump that causes an error. This fixed it.
+I don’t understand why yet.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--extended-insert=FALSE</span></code> do not merge rows as a single insert command.
+It causes some missing tables.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># dump schema
+mysqldump id --insert-ignore --set-gtid-purged=OFF -h{hostname} -u{username} -p{pssword} {database} &gt; file.sql
+# dump data
+mysqldump --extended-insert=FALSE --no-create-info=TRUE --set-gtid-purged=OFF -h{hostname} -u{username} -p{pssword} {database} &gt; file.sql
+</pre></div>
+</div>
+</div>
+<div class="section" id="importing">
+<h2>Importing<a class="headerlink" href="#importing" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mysql -h{hostname} -u{username} -p{password} {database} &lt; {database}.sql
+</pre></div>
+</div>
+</div>
+<div class="section" id="checking-difference">
+<h2>checking difference<a class="headerlink" href="#checking-difference" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mysqldbcompare --server1=user:pass@host:port --server2=user:pass@host:port db1:db2
+</pre></div>
+</div>
 </div>
 </div>
 
