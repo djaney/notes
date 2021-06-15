@@ -1,4 +1,4 @@
-# Corrupted mysql
+# [FIX] Corrupted Mysql InnoDB
 In this case, the InnoDB engine got errors. There is an unaccessilble table.
 You are also unable to manually fix the issue because you have no access to RDS itself.
 

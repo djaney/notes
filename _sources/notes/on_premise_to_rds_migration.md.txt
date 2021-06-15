@@ -1,4 +1,4 @@
-# If you want to transfer on-premise (not necessarily) to RDS
+# [HOWTO] Migrate on-premise database to RDS
 
 [AWS Documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedural.Importing.html)
 

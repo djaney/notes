@@ -8,15 +8,10 @@ Welcome to Notes's documentation!
 
 .. toctree::
    :maxdepth: 1
-   :caption: Database issues
+   :caption: Notes
    :glob:
 
-   issues/database/*
+   notes/**
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
