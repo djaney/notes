@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>[HOWTO] Migrate on-premise database to RDS &#8212; Notes 0.0.0 documentation</title>
+    <title>[HOWTO] Change collation of all tables in mysql &#8212; Notes 0.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -14,7 +14,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="[HOWTO] Change collation of all tables in mysql" href="how_to_edit_all_table_collation.html" />
+    <link rel="next" title="[HOWTO] Migrate on-premise database to RDS" href="on_premise_to_rds_migration.html" />
+    <link rel="prev" title="[HOWTO] get wifi channels" href="get_wifi_channels.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -28,10 +29,14 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="howto-migrate-on-premise-database-to-rds">
-<h1>[HOWTO] Migrate on-premise database to RDS<a class="headerlink" href="#howto-migrate-on-premise-database-to-rds" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedural.Importing.html">AWS Documentation</a></p>
-<p>When evertrhing is within AWS, perhaps it’s better to <a class="reference external" href="https://aws.amazon.com/blogs/aws/amazon-rds-for-mysql-promote-read-replica/">Promote a read replica to master</a></p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="howto-change-collation-of-all-tables-in-mysql">
+<h1>[HOWTO] Change collation of all tables in mysql<a class="headerlink" href="#howto-change-collation-of-all-tables-in-mysql" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">CONCAT</span><span class="p">(</span><span class="ss">&quot;ALTER TABLE &quot;</span><span class="p">,</span> <span class="n">TABLE_SCHEMA</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="k">TABLE_NAME</span><span class="p">,</span><span class="ss">&quot; CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;&quot;</span><span class="p">)</span> <span class="k">AS</span>    <span class="n">ExecuteTheString</span>
+<span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">TABLES</span>
+<span class="k">WHERE</span> <span class="n">TABLE_SCHEMA</span><span class="o">=</span><span class="ss">&quot;dtpcmsdb&quot;</span>
+<span class="k">AND</span> <span class="n">TABLE_TYPE</span><span class="o">=</span><span class="ss">&quot;BASE TABLE&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -54,15 +59,16 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="corrupted_mysql.html">[FIX] Corrupted Mysql InnoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="get_wifi_channels.html">[HOWTO] get wifi channels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="how_to_edit_all_table_collation.html">[HOWTO] Change collation of all tables in mysql</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">[HOWTO] Migrate on-premise database to RDS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">[HOWTO] Change collation of all tables in mysql</a></li>
+<li class="toctree-l1"><a class="reference internal" href="on_premise_to_rds_migration.html">[HOWTO] Migrate on-premise database to RDS</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="how_to_edit_all_table_collation.html" title="previous chapter">[HOWTO] Change collation of all tables in mysql</a></li>
+      <li>Previous: <a href="get_wifi_channels.html" title="previous chapter">[HOWTO] get wifi channels</a></li>
+      <li>Next: <a href="on_premise_to_rds_migration.html" title="next chapter">[HOWTO] Migrate on-premise database to RDS</a></li>
   </ul></li>
 </ul>
 </div>
@@ -88,7 +94,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
       |
-      <a href="../_sources/notes/on_premise_to_rds_migration.md.txt"
+      <a href="../_sources/notes/how_to_edit_all_table_collation.md.txt"
           rel="nofollow">Page source</a>
     </div>
 
